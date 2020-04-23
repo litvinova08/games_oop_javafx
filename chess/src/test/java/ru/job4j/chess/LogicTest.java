@@ -9,12 +9,22 @@ import static org.junit.Assert.*;
 
 public class LogicTest {
 
-    @Ignore
     @Test
-    public void move() {
+    public void move() throws Exception{
         Logic logic = new Logic();
         logic.add(new BishopBlack(Cell.C1));
         boolean rsl = logic.move(Cell.C1, Cell.H6);
         assertThat(rsl, is(true));
+    }
+
+    @Test
+    public void moveFalse() throws Exception{
+        Logic logic = new Logic();
+        BishopBlack bishopFirst = new BishopBlack(Cell.C1);
+        BishopBlack bishopSecond = new BishopBlack(Cell.D2);
+        logic.add(bishopFirst);
+        logic.add(bishopSecond);
+        boolean rsl = logic.move(Cell.C1, Cell.H6);
+        assertThat(rsl, is(false));
     }
 }

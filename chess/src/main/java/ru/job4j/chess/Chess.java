@@ -37,7 +37,7 @@ public class Chess extends Application {
         return rect;
     }
 
-    private Rectangle buildFigure(int x, int y, int size, String image) {
+    private Rectangle buildFigure(int x, int y, int size, String image) throws Exception {
         Rectangle rect = new Rectangle();
         rect.setX(x);
         rect.setY(y);
@@ -85,7 +85,7 @@ public class Chess extends Application {
     }
 
     @Override
-    public void start(Stage stage) {
+    public void start(Stage stage) throws Exception {
         BorderPane border = new BorderPane();
         HBox control = new HBox();
         control.setPrefHeight(40);
@@ -93,7 +93,13 @@ public class Chess extends Application {
         control.setAlignment(Pos.BASELINE_CENTER);
         Button start = new Button("Начать");
         start.setOnMouseClicked(
-                event -> this.refresh(border)
+                event -> {
+                    try {
+                        this.refresh(border);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
         );
         control.getChildren().addAll(start);
         border.setBottom(control);
@@ -105,7 +111,7 @@ public class Chess extends Application {
         this.refresh(border);
     }
 
-    private void refresh(final BorderPane border) {
+    private void refresh(final BorderPane border) throws Exception {
         Group grid = this.buildGrid();
         this.logic.clean();
         border.setCenter(grid);
@@ -113,7 +119,7 @@ public class Chess extends Application {
         this.buildBlackTeam(grid);
     }
 
-    private void buildBlackTeam(Group grid) {
+    private void buildBlackTeam(Group grid) throws Exception {
         this.add(new PawnBlack(Cell.A7), grid);
         this.add(new PawnBlack(Cell.B7), grid);
         this.add(new PawnBlack(Cell.C7), grid);
@@ -132,7 +138,7 @@ public class Chess extends Application {
         this.add(new RookBlack(Cell.H8), grid);
     }
 
-    public void buildWhiteTeam(Group grid) {
+    public void buildWhiteTeam(Group grid) throws  Exception{
         this.add(new PawnWhite(Cell.A2), grid);
         this.add(new PawnWhite(Cell.B2), grid);
         this.add(new PawnWhite(Cell.C2), grid);
@@ -151,7 +157,7 @@ public class Chess extends Application {
         this.add(new RookWhite(Cell.H1), grid);
     }
 
-    public void add(Figure figure, Group grid) {
+    public void add(Figure figure, Group grid) throws Exception {
         this.logic.add(figure);
         Cell position = figure.position();
         grid.getChildren().add(
